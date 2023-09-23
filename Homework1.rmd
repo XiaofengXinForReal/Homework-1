@@ -1,0 +1,134 @@
+---
+title: "Homework #1 of Xiaofeng Xin"
+date: "2023-9-24"
+output: html_document
+---
+#Add Header Row
+```{r}
+library(readxl)
+Typical_Employee_Survey_Data<-read_excel("C:/Users/xinxf/OneDrive/Desktop/Rutgers-NB 2023 Fall/Business Forecasting/Typical_Employee_Survey_Data.xlsx",col_names = FALSE)
+View(Typical_Employee_Survey_Data)
+mydataset <- Typical_Employee_Survey_Data
+names(mydataset)=c("age","gender","satisfication","jobchar","yearemployed","promlikeli","allowance","partibug","pride","tdlikeli","relationship")
+View(mydataset)
+```
+#Print out the 5-point summary and boxplot (numerical columns) for each column
+```{r}
+#Five Number Analysis of Age
+fivenum(mydataset$age)
+#Five Number Analysis of Gender
+fivenum(mydataset$gender)
+#Five Number Analysis of Job Satisfication
+fivenum(mydataset$satisfication)
+#Five Number Analysis of Job Characteristics
+fivenum(mydataset$jobchar)
+#Five Number Analysis of Years Employed
+fivenum(mydataset$yearemployed)
+#Five Number Analysis of likelihood of Promotion
+fivenum(mydataset$promlikeli)
+#Five Number Analysis of Allowance of taking part in making decisions that affect your work
+fivenum(mydataset$allowance)
+#Five Number Analysis of Participation in budgetary decisions
+fivenum(mydataset$partibug)
+#Five Number Analysis of pride in working
+fivenum(mydataset$pride)
+#Five Number Analysis of Turning down another job
+fivenum(mydataset$tdlikeli)
+#Five Number Analysis of relationships with colleagues
+fivenum(mydataset$relationship)
+#Boxplot of Age
+boxplot(mydataset$age)
+#Boxplot of Job Satisfication
+boxplot(mydataset$satisfication)
+#Boxplot of Job Characteristics
+boxplot(mydataset$jobchar)
+#Boxplot of Years Employed
+boxplot(mydataset$yearemployed)
+#Boxplot of Likelihood of Promotion
+boxplot(mydataset$promlikeli)
+#Boxplot of Allowance of taking part in making decisions that affect your work
+boxplot(mydataset$allowance)
+#Boxplot of Participation in budgetary decisions
+boxplot(mydataset$partibug)
+#Boxplot of pride in working
+boxplot(mydataset$pride)
+#Boxplot of relationships with colleagues
+boxplot(mydataset$relationship)
+#Boxplot of relationships with colleagues
+boxplot(mydataset$tdlikeli)
+
+```
+#Convert the columns that need to be converted to Factors
+```{r}
+mydataset$gender<-factor(mydataset$gender,levels=c(1,2),labels = c("Male","Female"))
+mydataset$satisfication<-factor(mydataset$satisfication,levels=c(1,2,3,4),labels = c("Very Satisfied","Moderately Satisfied","A Little Dissatisfied","Very Dissatisfied"))
+mydataset$jobchar<-factor(mydataset$jobchar,levels=c(1,2,3,4,5),labels = c("High Income ","No Danger of Being Fired","Flexible Hours","Opportunities for Advancement","Enjoying the Work"))
+mydataset$promlikeli<-factor(mydataset$promlikeli,levels=c(1,2,3,4,5),labels = c("Very Likely","Likely","Not Sure","Unlikely","Very Unlikely"))
+mydataset$allowance<-factor(mydataset$allowance,levels=c(1,2,3,4),labels = c("Always","Much of The Time","Sometimes","Never"))
+mydataset$partibug<-factor(mydataset$partibug,levels=c(1,2),labels = c("Yes","No"))
+mydataset$pride<-factor(mydataset$pride,levels=c(1,2,3,4),labels=c("Very Proud","Somewhat Proud","Indifferent","Not at all Proud"))
+mydataset$tdlikeli<-factor(mydataset$tdlikeli,levels = c(1,2,3,4,5),labels=c("Very Likely","Likely","Not Sure","Unlikely","Very Unlikely"))
+mydataset$relationship<-factor(mydataset$relationship,levels = c(1,2,3,4,5),labels = c("Very Good","Good","So So","Bad","Very Bad"))
+
+```
+#Plot the right visual for each column
+```{r}
+#Scatter Plot of Age
+plot(mydataset$age)
+#Pie Chart of Gender
+table(mydataset$gender)
+countgender<-table(mydataset$gender)
+pie(countgender,main = "Contribution of Gender")
+#Pie Chart of Gender with Percentage
+genderpercent=paste(round(100*countgender/sum(countgender)),"%")
+pie(countgender,labels = genderpercent,main="Percentage of Gender")
+#Bar chart of Job Satisfication
+countsatis<-table(mydataset$satisfication)
+barplot(countsatis,main="Satisficatory Rate")
+#Pie Chart of Job Characteristics
+countjbc<-table(mydataset$jobchar)
+jbcpercent<-paste(round(100*countjbc/sum(countjbc)),"%")
+pie(countjbc,main = "Job Character")
+#Pie Chart of Job Characteristics with Percentage
+pie(countjbc,labels = jbcpercent,main = "Percentage of Job Characteristics")
+#Scatter Plot of Years of Employment
+plot(mydataset$yearemployed)
+#Bar Chart of Promotion Likelihood
+countpll<-table(mydataset$promlikeli)
+barplot(countpll,main = "Promotion Likelihood")
+#Pie chart of allowance in making decions that affects your jobs
+countall<-table(mydataset$allowance)
+allpercent<-paste(round(100*countall/sum(countall)),"%")
+pie(countall,main = "Allowance in making decision that affects your job")
+#Pie chart of allowance in making decions that affects your jobs with percentage
+pie(countall,labels = allpercent,main = "Percentage of Allowance in Making Decision")
+#Bar chart of Participation in Bugtary Decisions
+countpbg<-table(mydataset$partibug)
+barplot(countpbg,main = "Participation in Bugtary Decisions")
+#Barchart of Pride in working
+countpri<-table(mydataset$pride)
+barplot(countpri,main="How Proud in working")
+#Barchart of Turning down another job
+counttdl<-table(mydataset$tdlikeli)
+barplot(counttdl,main="Would You Turn Down Another Job for Higher Payment?")
+#Barchart of Relationship with colleagues
+countrel<-table(mydataset$relationship)
+barplot(countrel,main="Relationship with colleagues")
+
+```
+#Scatter plot between variables
+```{r}
+#scatter plot of age and years of employment
+#The relationship between age and years of employement is positive from the graph
+plot(mydataset$age,mydataset$yearemployed)
+#scatterplot of age and job characteristics
+plot(as.numeric(mydataset$jobchar),mydataset$age,main = "Relationship between age and job characteristics",xlab = "Job Characteristics",ylab = "Age")
+#scatterplot of job characteristics and relationship with colleagues
+#Because the ranges of both variable are very limited. From the graph we could only observe some points. But each of the point may stand for multiple observations while we don't know the exact number of it. 
+plot(as.numeric(mydataset$jobchar),as.numeric(mydataset$relationship),main = "Relationship between Job Characteristics and Colleague Relationship",xlab = "Job Characteristics", ylab = "Relationship with Colleagues")
+
+```
+
+
+
+
